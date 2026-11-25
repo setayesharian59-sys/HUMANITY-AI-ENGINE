@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>HUMANITY AI ENGINE</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:#fff;font-family:Arial,sans-serif}
+header{padding:24px 18px;background:#172438;border-bottom:1px solid #34445a}
+header h1{font-size:23px;margin:0;color:#7dd3fc}
+header p{color:#a9b9d0;font-size:12px;letter-spacing:2px}
+main{max-width:850px;margin:auto;padding:18px}
+h2{font-size:19px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#1d2c41;padding:18px;border:1px solid #34445a;border-radius:14px}
+.card h3{margin:8px 0}
+.card p{color:#b6c6d9;font-size:13px}
+.icon{font-size:27px}
+.panel{background:#1d2c41;padding:18px;border-radius:14px;margin-top:18px}
+textarea,input,select{width:100%;padding:13px;border-radius:9px;border:1px solid #52657d;background:#101827;color:white;margin:8px 0 14px;font-size:15px}
+button{background:#0284c7;color:white;border:0;padding:13px 18px;border-radius:9px;font-weight:bold;cursor:pointer}
+button:active{opacity:.7}
+.secondary{background:#34445a}
+.result{color:#7dd3fc;white-space:pre-wrap;line-height:1.6}
+footer{text-align:center;color:#8da2bb;padding:25px;font-size:12px}
+@media(max-width:420px){header h1{font-size:20px}.grid{gap:9px}.card{padding:13px}}
+</style>
+</head>
+<body>
+<header>
+<h1>🚀 HUMANITY AI ENGINE</h1>
+<p>YOUR PERSONAL AI STUDIO</p>
+</header>
+<main>
+<h2>Welcome to your AI Studio</h2>
+<p style="color:#a9b9d0">Create. Imagine. Build the future.</p>
+
+<div class="grid">
+<div class="card">
+<div class="icon">🎨</div>
+<h3>Image Studio</h3>
+<p>Create cinematic image prompts.</p>
+<button onclick="openStudio('image')">Open Studio</button>
+</div>
+<div class="card">
+<div class="icon">🎬</div>
+<h3>Video Studio</h3>
+<p>Prepare prompts for video creation.</p>
+<button onclick="openStudio('video')">Open Studio</button>
+</div>
+<div class="card">
+<div class="icon">📖</div>
+<h3>Story Studio</h3>
+<p>Develop your stories and scenes.</p>
+<button onclick="openStudio('story')">Open Studio</button>
+</div>
+<div class="card">
+<div class="icon">📁</div>
+<h3>My Projects</h3>
+<p>Manage your creative work.</p>
+<button onclick="openProjects()">Open Projects</button>
+</div>
+</div>
+
+<section class="panel" id="workspace">
+<h2 id="studioTitle">✨ Creative Workspace</h2>
+<p style="color:#a9b9d0" id="studioDescription">Choose a studio to begin.</p>
+<label for="prompt">Your idea or prompt</label>
+<textarea id="prompt" rows="5" placeholder="Describe your cinematic scene..."></textarea>
+<label for="style">Visual style</label>
+<select id="style">
+<option>Cinematic realistic</option>
+<option>Science fiction</option>
+<option>Dark futuristic</option>
+<option>Epic battlefield</option>
+<option>Animation</option>
+</select>
+<button onclick="makePrompt()">Create Professional Prompt</button>
+<button class="secondary" onclick="saveProject()">Save Project</button>
+<div class="result" id="result"></div>
+</section>
+</main>
+<footer>HUMANITY AI ENGINE · VERSION 1.0</footer>
+
+<script>
+let currentStudio="image";
+
+function openStudio(type){
+currentStudio=type;
+let titles={
+image:"🎨 Image Studio",
+video:"🎬 Video Studio",
+story:"📖 Story Studio"
+};
+let descriptions={
+image:"Prepare a professional image generation prompt.",
+video:"Prepare a cinematic video generation prompt.",
+story:"Develop your story and scene ideas."
+};
+document.getElementById("studioTitle").textContent=titles[type];
+document.getElementById("studioDescription").textContent=descriptions[type];
+document.getElementById("prompt").placeholder=
+type==="video"?"Describe the action, camera movement and scene...":
+type==="story"?"Write your story idea...":
+"Describe your image...";
+document.getElementById("result").textContent="";
+document.getElementById("workspace").scrollIntoView({behavior:"smooth"});
+}
+
+function makePrompt(){
+let idea=document.getElementById("prompt").value.trim();
+let style=document.getElementById("style").value;
+if(!idea){alert("Please enter your idea first.");return;}
+let output=idea+". Visual style: "+style+
+". Highly detailed, professional composition, dramatic lighting, cinematic atmosphere, carefully designed environment.";
+document.getElementById("result").textContent=
+"YOUR PROFESSIONAL PROMPT:\n\n"+output;
+}
+
+function saveProject(){
+let idea=document.getElementById("prompt").value.trim();
+if(!idea){alert("Enter a project idea first.");return;}
+let projects=JSON.parse(localStorage.getItem("humanityProjects")||"[]");
+projects.push({idea:idea,date:new Date().toLocaleString()});
+localStorage.setItem("humanityProjects",JSON.stringify(projects));
+alert("Project saved on this device!");
+}
+
+function openProjects(){
+let projects=JSON.parse(localStorage.getItem("humanityProjects")||"[]");
+document.getElementById("studioTitle").textContent="📁 My Projects";
+document.getElementById("studioDescription").textContent=
+projects.length? "Your saved projects:":"No projects saved yet.";
+document.getElementById("result").textContent=
+projects.map((p,i)=>(i+1)+". "+p.idea+" ("+p.date+")").join("\n\n")||"Your projects will appear here.";
+document.getElementById("workspace").scrollIntoView({behavior:"smooth"});
+}
+</script>
+</body>
+</html>
