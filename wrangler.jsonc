@@ -1,0 +1,10 @@
+
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "humanity-ai-engine",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-26",
+  "ai": {
+    "binding": "AI"
+  }
+}
